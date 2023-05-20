@@ -886,7 +886,7 @@ rmoore@Grieg:~/DevProjects/first-app$ sail artisan make:migration create_student
     
 -Now to apply the database changes type:
 
-rmoore@Grieg:~/DevProjects/first-app$ sail artisan migrate
+rmoore@Grieg:~/DevProjects/first-app$ ./vendor/bin/sail artisan migrate
 
    INFO  Preparing database.
 
@@ -1027,9 +1027,9 @@ Laravel 9.0 Essential Training: 3) Starting Your Project: Add authentication wit
 -You could also instead use "Laravel UI" for authentication that uses the bootstrap framework
 -Install breeze using this command:
 
-$ sail composer require laravel/breeze --dev
+$ ./vendor/bin/sail composer require laravel/breeze --dev
 ...
-$ sail artisan breeze:install
+$ ./vendor/bin/sail artisan breeze:install
 ...
 $ npm install && npm run dev
 ...
@@ -1049,7 +1049,158 @@ npm ERR! A complete log of this run can be found in:
 npm ERR!     C:\Users\psalm\AppData\Local\npm-cache\_logs\2023-05-14T05_38_21_784Z-debug-0.log
 
 Laravel 9.0 Essential Training: 3) Starting Your Project: Add styles to your project:
+-Open welcome.blade.php:
+-Remove the styles divs
+-This is the important part for login but let us remove everything below from the page:
 
+            @if (Route::has('login'))
+                <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
+                    @auth
+                        <a href="{{ url('/home') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Home</a>
+                    @else
+                        <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
+
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                        @endif
+                    @endauth
+                </div>
+            @endif
+
+-Go to the browser at http://localhost and refresh
+-There are still some styles retrieved from ~\resources\views\login.blade.php
+-Check the layouts in guest.blade.php.  Notice that it has:
+
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+-The "asset" keyword refers to the assets in the app in the public/css directory
+-Copy and paste this into the welcome.blade.php file:
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+        <!-- Scripts -->
+        <script src="{{ asset('js/app.js') }}" defer></script>
+
+-Go to the browser and refresh
+-Whenever we build the latest styles get generated and put into ~\public\css\#app.css
+-All of these styles got generated after we run "npm run dev" after installing breeze
+-Now we can quite and type "npm run dev" or even better we can run "npm run watch" which watches the files for chagnes
+-If you want to add your own customer css go to ~\resources\css\#app.css and add your custom css to the bottom of the file:
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+Laravel 9.0 Essential Training: 3) Starting Your Project: Create the first model with migration:
+-Now let us create a model with this command where the -m means to create the migration as well:
+
+moore@Grieg:~/DevProjects/litenotes $ ./vendor/bin/sail artisan make:model Note -m
+
+   INFO  Model [app/Models/Note.php] created successfully.
+
+   INFO  Migration [database/migrations/2023_05_20_164406_create_notes_table.php] created successfully.
+
+-This will create Note.php in ~\app\models\Note.php
+-Also it will create a migration in:
+
+  ~\database\migrations\2023_05_20_164406_create_notes_table.php
+
+-Where we added user_id foreign key and title and text fields  
+
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('notes', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->string('title');
+            $table->longText('text');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('notes');
+    }
+};
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('notes', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->string('title');
+            $table->longText('text');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('notes');
+    }
+};
+
+-To apply changes to the database:
+
+rmoore@Grieg:~/DevProjects/litenotes$ ./vendor/bin/sail artisan migrate
+
+   INFO  Running migrations.
+
+  2023_05_20_164406_create_notes_table .................................................................................................. 197ms DONE
+
+-Open DataGrip/TablePlus and refresh to verify the creation of the table
+
+
+Laravel 9.0 Essential Training: 3) Starting Your Project: Register resource routes:
+-"Let's start creating the required routes for our application in our routes file, web.php"
+-These are all of the functions that we need to create for notes:
+
+Route::get('/notes', );
+
+Route::get('/notes/{notes}', );
+
+Route::get('/notes/create', );
+
+Route::post('/notes', );
+
+// edit 
+// update 
+// destroy
+
+-All of the above functionality are consolidated into this one line:
+
+Route::resource('/notes', );
+
+-See the docs at https://laravel.com/docs/9.x/controllers#resource-controllers
 
 
 Laravel 9.0 Essential Training: 3) Starting Your Project: 
