@@ -1048,6 +1048,10 @@ npm ERR! EISDIR: illegal operation on a directory, lstat '\\wsl.localhost\Ubuntu
 npm ERR! A complete log of this run can be found in:
 npm ERR!     C:\Users\psalm\AppData\Local\npm-cache\_logs\2023-05-14T05_38_21_784Z-debug-0.log
 
+Laravel 9.0 Essential Training: 3) Starting Your Project: Add styles to your project:
+
+
+
 Laravel 9.0 Essential Training: 3) Starting Your Project: 
 
 
