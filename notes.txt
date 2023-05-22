@@ -1202,6 +1202,130 @@ Route::resource('/notes', );
 
 -See the docs at https://laravel.com/docs/9.x/controllers#resource-controllers
 
+Laravel 9.0 Essential Training: 3) Starting Your Project: Create resource controller actions:
+-Branch -> 03_07b
+-It is similar to creating a normal controller:
+
+rmoore@Grieg:~/DevProjects/litenotes$ ./vendor/bin/sail artisan make:controller NoteController --resource
+
+   INFO  Controller [app/Http/Controllers/NoteController.php] created successfully.
+
+-Verify by going to:
+
+~\app\Http\Controllers\NoteController.php:
+
+-You must add the code for the function stubs
+-Now go back to web.php, uncomment the line and add the controller
+-If we only want to make it available to the logged in users then add the auth middleware:
+
+Route::resource('/notes', NoteController::class)->middleware(['auth']); 
+
+-Also add "use App\Http\Controllers\NotesController;"
+
+-You can verify this by going to this address which should result in a blank screen because this route exists:
+
+http://localhost/notes
+
+-Now instead of immediately being redirected to the dashboard let`s change it so that it goes to notes which can be accomplished in the RouteServiceProvider.php.  Change this line:
+
+public const HOME = '/dashboard';
+
+To:
+
+public const HOME = '/notes';
+
+-Now logout, and login and try it again
+
+
+-----
+
+insert into users (name, email, email_verified_at, password, created_at, updated_at) values ('Roger', 'john_1726@yahoo.com', NOW(), 'lnF14-fighter!', NOW(), NOW());
+
+-----
+
+http://localhost/events
+
+Illuminate
+ \ 
+Contracts
+ \ 
+Container
+ \ 
+BindingResolutionException
+PHP 8.2.6
+10.11.0
+Target class [EventController] does not exist.
+
+Laravel 9.0 Essential Training: 3) Starting Your Project: Add an index method to fetch all of the notes:
+-Branch -> 03_01b
+-If you check the docs at https://laravel.com/docs/9.x/controllers#resource-controllers you will see that notes URI corresponds to the index action in the controller
+-Here is the function in NoteController:
+
+    public function index()
+    {
+        //
+    }
+
+-Let us first go and manually add a note to the database using datagrip/tableplus
+
+insert into notes (user_id, title, text, created_at, updated_at) values (2, 'First note', 'Text of note', NOW(), NOW());
+
+-Also import:
+
+use Illuminate\Support\Facades\Auth;
+use App\Models\Note;
+
+    public function index()
+    {
+        $userId = Auth::user()->id;
+        $notes = Note::where('user_id', $userId)->get();
+        dd($notes);
+    }
+
+-Refresh the browser:
+
+http://localhost/notes
+
+Which should display:
+
+Illuminate\Database\Eloquent\Collection {#1332 ▼ // app/Http/Controllers/NoteController.php:18
+  #items: array:1 [▼
+    0 => App\Models\Note {#1331 ▼
+      #connection: "mysql"
+      #table: "notes"
+      #primaryKey: "id"
+      #keyType: "int"
+      +incrementing: true
+      #with: []
+      #withCount: []
+      +preventsLazyLoading: false
+      #perPage: 15
+      +exists: true
+      +wasRecentlyCreated: false
+      #escapeWhenCastingToString: false
+      #attributes: array:6 [▶]
+      #original: array:6 [▶]
+      #changes: []
+      #casts: []
+      #classCastCache: []
+      #attributeCastCache: []
+      #dateFormat: null
+      #appends: []
+      #dispatchesEvents: []
+      #observables: []
+      #relations: []
+      #touches: []
+      +timestamps: true
+      +usesUniqueIds: false
+      #hidden: []
+      #visible: []
+      #fillable: []
+      #guarded: array:1 [▶]
+    }
+  ]
+  #escapeWhenCastingToString: false
+}
+
 
 Laravel 9.0 Essential Training: 3) Starting Your Project: 
 
