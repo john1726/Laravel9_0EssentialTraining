@@ -1,3 +1,11 @@
+C:\Users\User>wsl -l -v
+  NAME                   STATE           VERSION
+* Ubuntu-22.04           Running         2
+  docker-desktop-data    Running         2
+  docker-desktop         Running         2
+
+--------------------------------------------------------------------------------
+
 Laravel 9.0 Essential Training (see https://www.linkedin.com/learning/laravel-9-0-essential-training/why-laravel?autoplay=true&contextUrn=urn%3Ali%3AlyndaLearningPath%3A5df00060498ec7589c054544&u=103738058):
 
 Shruti Balasa:
@@ -1048,6 +1056,19 @@ npm ERR! EISDIR: illegal operation on a directory, lstat '\\wsl.localhost\Ubuntu
 npm ERR! A complete log of this run can be found in:
 npm ERR!     C:\Users\psalm\AppData\Local\npm-cache\_logs\2023-05-14T05_38_21_784Z-debug-0.log
 
+-> Solution: Ran as root
+
+$ curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
+...
+$ sudo apt -y install nodejs
+...
+$ node  -v
+v14.21.1
+
+-To view application: 
+
+http://localhost:5174/
+
 Laravel 9.0 Essential Training: 3) Starting Your Project: Add styles to your project:
 -Open welcome.blade.php:
 -Remove the styles divs
@@ -1243,6 +1264,7 @@ insert into users (name, email, email_verified_at, password, created_at, updated
 
 -----
 
+
 http://localhost/events
 
 Illuminate
@@ -1256,7 +1278,7 @@ PHP 8.2.6
 10.11.0
 Target class [EventController] does not exist.
 
-Laravel 9.0 Essential Training: 3) Starting Your Project: Add an index method to fetch all of the notes:
+Laravel 9.0 Essential Training: 4) Creating, Indexing and Showing: Add an index method to fetch all of the notes:
 -Branch -> 03_01b
 -If you check the docs at https://laravel.com/docs/9.x/controllers#resource-controllers you will see that notes URI corresponds to the index action in the controller
 -Here is the function in NoteController:
@@ -1326,8 +1348,25 @@ Illuminate\Database\Eloquent\Collection {#1332 ▼ // app/Http/Controllers/NoteC
   #escapeWhenCastingToString: false
 }
 
+Laravel 9.0 Essential Training: 4) Creating, Indexing and Showing: Create an index view to display all notes:
+-Create a new folder "notes" and blade:
 
-Laravel 9.0 Essential Training: 3) Starting Your Project: 
+    ~resources\views\notes\index.blade.php
+
+Add this to the file:
+
+
+...
+
+-> Solution (to npm / nodejs problems): Ignore npm / nodejs completely for this project!
+
+
+Laravel 9.0 Essential Training: 4) Creating, Indexing and Showing: 
+
+
+
+
+
 
 
 
